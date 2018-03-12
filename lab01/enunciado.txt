@@ -1,0 +1,17 @@
+Laboratório 01 - Tutorial
+
+A atividade do Laboratório 01 é a execução do tutorial de introdução à ferramenta (Quartus) e à placa (DE1-SoC) da própria fabricante.
+
+Antes de mais nada, escolha o seu grupo de trabalho (e a placa que irá utilizar) utilizando o formulário (http://www.ggte.unicamp.br/eam/mod/choicegroup/view.php?id=109294). É importante manter a utilização da mesma placa em todos os laboratórios.
+
+Ao abrir a caixa, confira o conteúdo: 2 cabos USB, fonte de alimentação, e a placa. Caso a sua placa já não esteja com os "pezinhos" de borracha, coloque eles para uma melhor aderência da placa na bancada de trabalho. Os pezinhos estão em um saquinho de plástico dentro da caixa.
+
+Ao ligar a placa pela primeira vez, ela executará uma demonstração de funcionamento.
+
+Faça os tutoriais dos arquivos em anexo, começando pelo Quartus Prime - Schematic Designs.
+
+ENTREGA:
+
+Faça o upload dos arquivos do projeto: .vhd, .bdf, .qsf e .vwf.
+
+Os arquivos .qsf e .vwf podem ser do projeto tanto do primeiro como do segundo tutorial.
