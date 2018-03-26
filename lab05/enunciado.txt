@@ -1,0 +1,7 @@
+Laboratório 05
+
+ATENÇÃO:
+
+1. Os arquivos pedidos DEVEM ser enviados individualmente. NÃO ENVIE um único arquivo .zip.
+
+2. NÃO ALTERE a declaração de entidade informada no exercício. Isso inclui o nome da entidade, os nomes das entradas e saídas e seus tipos.
