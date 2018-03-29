@@ -1,0 +1,5 @@
+As equipes deverão fazer um projeto de complexidade maior do que os laboratórios, de modo a exercitar os conhecimentos adquiridos. O projeto deve necessariamente incluir um ou mais periféricos de entrada/saída (monitor, mouse e teclado ou OUTRO).
+
+Projeto escolhido:
+  4.5 Teclado Musical 
+  O teclado musical simula o comportamento de um instrumento, tocando uma nota para cada tecla pressionada no mesmo. O projeto deve suportar pelo menos duas oitavas, sustentar a nota enquanto a tecla estiver pressionada e permitir ao menos duas vozes (duas teclas pressionadas ao mesmo tempo). É necessário um hardware específico (buzzer) que será fornecido pelo professor.
