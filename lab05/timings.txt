@@ -1,0 +1,21 @@
+N = 4 (Ripple Carry)-> Delay = 8.070
+report_path -from [get_ports {cin x[0] x[1] x[2] x[3] y[0] y[1] y[2] y[3]}] -to [get_ports {cout overflow r[0] r[1] r[2] r[3]}] -npaths 1 -panel_name {Report Path} -multi_corner
+
+N = 4 (CLA) -> Delay = 7.778
+report_path -from [get_ports {cin x[0] x[1] x[2] x[3] y[0] y[1] y[2] y[3]}] -to [get_ports {cout sum[0] sum[1] sum[2] sum[3]}] -npaths 1 -panel_name {Report Path} -multi_corner
+
+
+N = 8 (Ripple Carry) -> Delay = 13.289
+report_path -from [get_ports {cin x[0] x[1] x[2] x[3] x[4] x[5] x[6] x[7] y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7]}] -to [get_ports {cout overflow r[0] r[1] r[2] r[3] r[4] r[5] r[6] r[7]}] -npaths 1 -panel_name {Report Path} -multi_corner
+
+N = 8 (CLA Parcial) -> Delay = 12.744
+report_path -from [get_ports {cin x[0] x[1] x[2] x[3] x[4] x[5] x[6] x[7] y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7]}] -to [get_ports {cout sum[0] sum[1] sum[2] sum[3] sum[4] sum[5] sum[6] sum[7]}] -npaths 1 -panel_name {Report Path} -multi_corner
+
+N = 8 (CLA Puro) -> Delay = 8.902
+report_path -from [get_ports {cin x[0] x[1] x[2] x[3] x[4] x[5] x[6] x[7] y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7]}] -to [get_ports {cout sum[0] sum[1] sum[2] sum[3] sum[4] sum[5] sum[6] sum[7]}] -npaths 1 -panel_name {Report Path} -multi_corner
+
+
+Conclusão:
+
+O CLA é mais rápido que o Ripple Carry, nas medições com 4 e 8 bits.
+O CLA Puro é mais rápido que o CLA Parcial.
