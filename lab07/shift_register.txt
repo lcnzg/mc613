@@ -1,0 +1,5 @@
+Quando se usa o botão KEY para o clock se tem um waveform que sobe somente quando o botão está pressionado
+e desce quando é liberado, por isso o ele é CONTROLÁVEL para uso do clock. O botão de switch SW9(9) acaba tendo
+algum problema e fica oscilando ao redor do valor 1. Deste modo ele acaba sendo incrivelmente rápido e INCONTROLÁVEL
+e assim os valores mudam extremamente rápido sem poder visualizar corretamente o shift register; porém é possível
+notar que ele ocorra pois os LEDS acendem todos.
