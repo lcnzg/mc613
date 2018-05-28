@@ -42,6 +42,6 @@ begin
 					"0010010" when 4, -- nota D#
 					"0010010" when 7, -- nota F#
 					"0010010" when 9, -- nota G#
-					"0010010" when others; -- desligado
+					"1111111" when others; -- desligado
 
 end rtl;
