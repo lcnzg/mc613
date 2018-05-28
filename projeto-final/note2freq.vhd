@@ -1,14 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity note2freq is
+entity note2period is
 	port (
 		note: in integer range 0 to 13;
-		freq: out integer range 0 to 523
+		period: out integer range 0 to 523
 );
-end note2freq;
+end note2period;
 
-architecture rtl of note2freq is
+architecture rtl of note2period is
 
 begin
 
@@ -27,6 +27,6 @@ begin
 					370 when 7, -- nota F#
 					392 when 8, -- nota G
 					415 when 9, -- nota G#
-					400 when others; -- desligado
+					0 when others; -- desligado
 
 end rtl;

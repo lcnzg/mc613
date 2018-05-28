@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity sine_wave is
 	port (
+		reset : in std_logic;
 		indice: in integer range 0 to 7999;
 		amplitude: out integer range -2097152 to 2097152
 );

@@ -37,18 +37,19 @@ architecture rtl of main_board is
 );
 	end component;
 	
-	component note2freq is
+	component note2period is
 		port (
 			note: in integer range 0 to 13;
-			freq: out integer range 0 to 523
+			period: out integer range 0 to 191
 );
 	end component;
 	
 	component clk_div is
 	  port (
-		 clk : in std_logic;
-		 freq: in integer range 0 to 523;
-		 clk_note : out std_logic
+			clk : in std_logic;
+			period: in integer range 0 to 191;
+			oitava: in std_logic_vector(3 downto 0);
+			clk_note : out std_logic
 	  );
 	end component;
 	
@@ -102,15 +103,23 @@ architecture rtl of main_board is
 	signal nota2 : integer range 0 to 13;
 	signal write_s : STD_LOGIC;
 	signal write_ready : STD_LOGIC;
+	signal amplitude1: integer range -2097152 to 2097152;
+	signal amplitude2: integer range -2097152 to 2097152;
 	signal amplitude: integer range -2097152 to 2097152;
-	signal indice : integer range 0 to 7999 := 0;
+	signal indice1 : integer range 0 to 7999 := 0;
+	signal indice2 : integer range 0 to 7999 := 0;
 	signal audio_data : std_logic_vector (23 downto 0);
-	signal freq1 : integer range 0 to 523;
-	signal clk_note : STD_LOGIC;
+	signal period1 : integer range 0 to 191;
+	signal period2 : integer range 0 to 191;
+	signal clk_note1 : STD_LOGIC;
+	signal clk_note2 : STD_LOGIC;
+	signal oitava : std_logic_vector(3 downto 0);
   
 begin
 
-
+	oitava <= SW(3) & SW(2) & SW(1) & SW(0);
+	amplitude <= (amplitude1 + amplitude2)/2;
+	
 	kbdex_ctrl_inst : kbdex_ctrl
 		generic map (
 			clkfreq => 50000
@@ -156,19 +165,34 @@ begin
 			hex2 => HEX2
 		);
 		
-	freq : note2freq
+	nota1_period : note2period
 		port map (
-			nota1, freq1
+			nota1, period1
 		);
 		
-	sine : sine_wave
+	nota2_period : note2period
 		port map (
-			indice, amplitude
+			nota2, period2
 		);
 		
-	clk_new : clk_div
+	sine1 : sine_wave
 		port map (
-			CLOCK_50, freq1, clk_note
+			indice1, amplitude1
+		);
+		
+	sine2 : sine_wave
+		port map (
+			indice2, amplitude2
+		);
+		
+	clk1 : clk_div
+		port map (
+			CLOCK_50, period1, oitava, clk_note1
+		);
+	
+	clk2 : clk_div
+		port map (
+			CLOCK_50, period2, oitava, clk_note2
 		);
 		
 	PROCESS(CLOCK_50)
@@ -178,18 +202,30 @@ begin
 					write_s <= '1';           --writes to buffer in audio codec
 					audio_data <= std_logic_vector(to_signed(amplitude, 24));
 				else
-					write_s<='0';					
+					write_s<='0';				
 				END IF;
 			END IF;
 	END PROCESS;
 	
 	PROCESS(CLOCK_50)
 		BEGIN
-			IF(CLOCK_50'event and CLOCK_50 = '1' and clk_note='1') THEN 
-				indice <= indice+1;
+			IF(CLOCK_50'event and CLOCK_50 = '1' and clk_note1='1') THEN 
+				indice1 <= indice1+1;
 			END IF;
+			if (nota1 = 0) then
+				indice1 <= 0;
+			end if;
 	END PROCESS;
 		
+	PROCESS(CLOCK_50)
+		BEGIN
+			IF(CLOCK_50'event and CLOCK_50 = '1' and clk_note2='1') THEN 
+				indice2 <= indice2+1;
+			END IF;
+			if (nota2 = 0) then
+				indice2 <= 0;
+			end if;
+	END PROCESS;
 
 	my_clock_gen: clock_generator PORT MAP (CLOCK2_50, '0', AUD_XCK);
 	

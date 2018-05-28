@@ -5,7 +5,8 @@ use ieee.numeric_std.all;
 entity clk_div is
   port (
     clk : in std_logic;
-	 freq: in integer range 0 to 523;
+	 period: in integer range 0 to 191;
+	 oitava: in std_logic_vector(3 downto 0);
     clk_note : out std_logic
   );
 end clk_div;
@@ -13,12 +14,20 @@ end clk_div;
 architecture behavioral of clk_div is
 signal counter: INTEGER range 1 to 50000000;
 signal aux: integer range 1 to 50000000;
+signal divisao: integer range 2 to 128;
 begin
-  
-  process (freq)
-  begin
-	aux <= (50000000 / freq) / 8000;
-  end process;
+
+	with oitava select
+		divisao <= 	2 when "0001",
+						4 when "0010",
+						8 when "0011",
+						16 when "0100",
+						32 when "0101",
+						64 when "0110",
+						128 when "0111",
+						16 when others;
+
+	aux <= period / divisao;
   
 	process (clk)
 	begin
