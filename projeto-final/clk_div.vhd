@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity clk_div is
   port (
     clk : in std_logic;
-	 period: in integer range 0 to 191;
-	 oitava: in std_logic_vector(3 downto 0);
+	 period: in integer range 0 to 187;
+	 oitava: in std_logic_vector(1 downto 0);
     clk_note : out std_logic
   );
 end clk_div;
@@ -14,18 +14,15 @@ end clk_div;
 architecture behavioral of clk_div is
 signal counter: INTEGER range 1 to 50000000;
 signal aux: integer range 1 to 50000000;
-signal divisao: integer range 2 to 128;
+signal divisao: integer range 1 to 8;
 begin
 
 	with oitava select
-		divisao <= 	2 when "0001",
-						4 when "0010",
-						8 when "0011",
-						16 when "0100",
-						32 when "0101",
-						64 when "0110",
-						128 when "0111",
-						16 when others;
+		divisao <= 	1 when "00",
+						2 when "01",
+						4 when "10",
+						8 when "11",
+						8 when others;
 
 	aux <= period / divisao;
   
@@ -33,7 +30,7 @@ begin
 	begin
 		if( clk'event and clk = '1') then		 
 			counter <= counter + 1;
-			if counter = aux then
+			if counter >= aux then
 				clk_note <= '1';
 				counter <= 1;
 			else

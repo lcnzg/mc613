@@ -13,8 +13,9 @@ entity main_board is
       FPGA_I2C_SCLK, AUD_DACDAT, AUD_XCK : OUT   STD_LOGIC;
 		HEX0 : out std_logic_vector(6 downto 0);
 		HEX1 : out std_logic_vector(6 downto 0);
-		HEX2 : out std_logic_vector(6 downto 0);
-		HEX3 : out std_logic_vector(6 downto 0)
+		HEX2 : out std_logic_vector(6 downto 0);		
+		HEX3 : out std_logic_vector(6 downto 0);
+		HEX5 : out std_logic_vector(6 downto 0)
 	);
 	
 end main_board;
@@ -37,25 +38,32 @@ architecture rtl of main_board is
 );
 	end component;
 	
+	component octave2hex is
+		port (
+			oitava: in std_logic_vector(1 downto 0);
+			hex: out std_logic_vector(6 downto 0)
+);
+	end component;
+	
 	component note2period is
 		port (
 			note: in integer range 0 to 13;
-			period: out integer range 0 to 191
+			period: out integer range 0 to 187
 );
 	end component;
 	
 	component clk_div is
 	  port (
 			clk : in std_logic;
-			period: in integer range 0 to 191;
-			oitava: in std_logic_vector(3 downto 0);
+			period: in integer range 0 to 187;
+			oitava: in std_logic_vector(1 downto 0);
 			clk_note : out std_logic
 	  );
 	end component;
 	
 	component sine_wave is
 		port (
-			indice: in integer range 0 to 7999;
+			indice: in integer range 0 to 4095;
 			amplitude: out integer range -2097152 to 2097152
 		);
 	end component;
@@ -106,18 +114,18 @@ architecture rtl of main_board is
 	signal amplitude1: integer range -2097152 to 2097152;
 	signal amplitude2: integer range -2097152 to 2097152;
 	signal amplitude: integer range -2097152 to 2097152;
-	signal indice1 : integer range 0 to 7999 := 0;
-	signal indice2 : integer range 0 to 7999 := 0;
+	signal indice1 : integer range 0 to 4095 := 0;
+	signal indice2 : integer range 0 to 4095 := 0;
 	signal audio_data : std_logic_vector (23 downto 0);
-	signal period1 : integer range 0 to 191;
-	signal period2 : integer range 0 to 191;
+	signal period1 : integer range 0 to 187;
+	signal period2 : integer range 0 to 187;
 	signal clk_note1 : STD_LOGIC;
 	signal clk_note2 : STD_LOGIC;
-	signal oitava : std_logic_vector(3 downto 0);
+	signal oitava : std_logic_vector(1 downto 0);
   
 begin
 
-	oitava <= SW(3) & SW(2) & SW(1) & SW(0);
+	oitava <= SW(1) & SW(0);
 	amplitude <= (amplitude1 + amplitude2)/2;
 	
 	kbdex_ctrl_inst : kbdex_ctrl
@@ -165,6 +173,12 @@ begin
 			hex2 => HEX2
 		);
 		
+	octave_disp : octave2hex
+		port map (
+			oitava => oitava,
+			hex => HEX5
+		);		
+
 	nota1_period : note2period
 		port map (
 			nota1, period1
@@ -197,35 +211,31 @@ begin
 		
 	PROCESS(CLOCK_50)
 		BEGIN
-			IF(CLOCK_50'event and CLOCK_50 = '1') THEN
+			IF(CLOCK_50'event and CLOCK_50 = '1') THEN			
 				IF(write_ready='1') THEN
 					write_s <= '1';           --writes to buffer in audio codec
 					audio_data <= std_logic_vector(to_signed(amplitude, 24));
 				else
 					write_s<='0';				
 				END IF;
+				
+				IF(clk_note1='1') THEN 
+					indice1 <= indice1+1;
+				END IF;
+				if (nota1 = 0) then
+					indice1 <= 0;
+				end if;
+				
+				IF(clk_note2='1') THEN 
+				indice2 <= indice2+1;
+				END IF;
+				if (nota2 = 0) then
+					indice2 <= 0;
+				end if;				
 			END IF;
 	END PROCESS;
 	
-	PROCESS(CLOCK_50)
-		BEGIN
-			IF(CLOCK_50'event and CLOCK_50 = '1' and clk_note1='1') THEN 
-				indice1 <= indice1+1;
-			END IF;
-			if (nota1 = 0) then
-				indice1 <= 0;
-			end if;
-	END PROCESS;
-		
-	PROCESS(CLOCK_50)
-		BEGIN
-			IF(CLOCK_50'event and CLOCK_50 = '1' and clk_note2='1') THEN 
-				indice2 <= indice2+1;
-			END IF;
-			if (nota2 = 0) then
-				indice2 <= 0;
-			end if;
-	END PROCESS;
+	
 
 	my_clock_gen: clock_generator PORT MAP (CLOCK2_50, '0', AUD_XCK);
 	
