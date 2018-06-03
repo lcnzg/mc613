@@ -19,16 +19,16 @@ begin
 		aux <=	1 when x"001C", -- letra a, nota c
 					2 when x"001D", -- letra w, nota c#
 					3 when x"001B", -- letra s, nota d
-					4 when x"0024", -- letra e, nota d
-					5 when x"0023", -- letra d, nota d
-					6 when x"002B", -- letra f, nota d
-					7 when x"002C", -- letra t, nota d
-					8 when x"0034", -- letra g, nota d
-					9 when x"0035", -- letra y, nota d
-					10 when x"0033", -- letra h, nota d
-					11 when x"003C", -- letra u, nota d
-					12 when x"003B", -- letra j, nota d
-					13 when x"0042", -- letra k, nota d					
+					4 when x"0024", -- letra e, nota d#
+					5 when x"0023", -- letra d, nota e
+					6 when x"002B", -- letra f, nota f
+					7 when x"002C", -- letra t, nota f#
+					8 when x"0034", -- letra g, nota g
+					9 when x"0035", -- letra y, nota g#
+					10 when x"0033", -- letra h, nota a
+					11 when x"003C", -- letra u, nota a#
+					12 when x"003B", -- letra j, nota b
+					13 when x"0042", -- letra k, nota c
 					0 when others;
 					
 	note <= aux when key_on = '1' else 0;

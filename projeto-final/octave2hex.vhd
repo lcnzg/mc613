@@ -13,7 +13,7 @@ architecture rtl of octave2hex is
 signal aux : integer range 0 to 13;
 
 begin
-	-- mostra as letras ou nao
+	-- mostra a oitava atual
 	with oitava select
 		hex <=	"1111001" when "00", -- oitava 1
 					"0100100" when "01", -- oitava 2

@@ -4,18 +4,18 @@ use ieee.numeric_std.all;
 
 entity main_board is
 	port (
-		CLOCK_50, CLOCK2_50, AUD_DACLRCK   : IN    STD_LOGIC;
-      AUD_ADCLRCK, AUD_BCLK, AUD_ADCDAT  : IN    STD_LOGIC;
-		SW : in std_logic_vector(6 downto 0);
-		PS2_DAT : inout STD_LOGIC;
-		PS2_CLK : inout STD_LOGIC;		
-      FPGA_I2C_SDAT                      : INOUT STD_LOGIC;
-      FPGA_I2C_SCLK, AUD_DACDAT, AUD_XCK : OUT   STD_LOGIC;
-		HEX0 : out std_logic_vector(6 downto 0);
-		HEX1 : out std_logic_vector(6 downto 0);
-		HEX2 : out std_logic_vector(6 downto 0);		
-		HEX3 : out std_logic_vector(6 downto 0);
-		HEX5 : out std_logic_vector(6 downto 0)
+		CLOCK_50, CLOCK2_50, AUD_DACLRCK		: IN		STD_LOGIC;
+      AUD_ADCLRCK, AUD_BCLK, AUD_ADCDAT	: IN		STD_LOGIC;
+		SW 											: in		std_logic_vector(6 downto 0);
+		PS2_DAT										: inout	STD_LOGIC;
+		PS2_CLK										: inout	STD_LOGIC;		
+      FPGA_I2C_SDAT								: INOUT	STD_LOGIC;
+      FPGA_I2C_SCLK, AUD_DACDAT, AUD_XCK	: OUT		STD_LOGIC;
+		HEX0											: out		std_logic_vector(6 downto 0);
+		HEX1											: out		std_logic_vector(6 downto 0);
+		HEX2											: out		std_logic_vector(6 downto 0);		
+		HEX3											: out		std_logic_vector(6 downto 0);
+		HEX5											: out		std_logic_vector(6 downto 0)
 	);
 	
 end main_board;
@@ -233,8 +233,7 @@ begin
 					indice2 <= 0;
 				end if;				
 			END IF;
-	END PROCESS;
-	
+	END PROCESS;	
 	
 
 	my_clock_gen: clock_generator PORT MAP (CLOCK2_50, '0', AUD_XCK);
