@@ -1,6 +1,6 @@
 # MC613 - Laboratório de Circuitos Digitais
 
-Laboratórios da disciplina MC613, UNICAMP, 2018-1
+Laboratórios da disciplina MC613 feitos em dupla, UNICAMP, 2018-1
 
 Professor: Sandro Rigo
 
